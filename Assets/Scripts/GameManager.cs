@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private int points = 0;
     private bool winner = false;
+    private int level = 0;
 
     private void Awake()
     {
@@ -30,35 +31,85 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartLevel();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StartLevel()
     {
-        
+        winner = false;
+        NextLevel();
+
+        if (!PlayerPrefs.HasKey("level"))
+        {
+            level = 1;
+            PlayerPrefs.SetInt("level", level);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            level = PlayerPrefs.GetInt("level");
+        }
     }
 
     private void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); 
-        winner = false;
+        if (level == 1 && winner == true)
+        {
+            winner = false;
+            PlayerPrefs.SetInt("level", 2);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("Level 2");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("level", 1);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("Level 1");
+        }
+        
+        StartLevel();
     }
     
 
     public void ScorePoints()
     {
-        if (points < 5)
+
+        if (level == 1)
         {
-            points++;
-            _txtPoints.text = "Points : " + points * 100;
+            if (points < 5)
+            {
+                points++;
+                _txtPoints.text = "Points : " + points * 100;
+            }
+            else
+            {
+                points++;
+                _txtPoints.text = "Points : " + points * 100;
+                winner = true;
+
+                if (!PlayerPrefs.HasKey("level"))
+                {
+                    level = 2;
+                    PlayerPrefs.SetInt("level", level);
+                    PlayerPrefs.Save();
+                }
+                
+                NextLevel();
+            }
         }
-        else
+        else if (level == 2)
         {
-            points++;
-            _txtPoints.text = "Points : " + points * 100;
-            winner = true;
-            NextLevel();
+            if (points < 5)
+            {
+                points++;
+                _txtPoints.text = "Points : " + points * 100;
+            }
+            else
+            {
+                points++;
+                _txtPoints.text = "Points : " + points * 100;
+                winner = true;
+            }
         }
     }
 }
