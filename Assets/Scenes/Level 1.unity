@@ -1382,6 +1382,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7680425406199323021, guid: c6d37ecda35cbb94f9996c20f3f993fd, type: 3}
+      propertyPath: _btnExit
+      value: 
+      objectReference: {fileID: 1182216052}
+    - target: {fileID: 7680425406199323021, guid: c6d37ecda35cbb94f9996c20f3f993fd, type: 3}
+      propertyPath: _txtGameOver
+      value: 
+      objectReference: {fileID: 1339472766}
+    - target: {fileID: 7680425406199323021, guid: c6d37ecda35cbb94f9996c20f3f993fd, type: 3}
+      propertyPath: _btnRestartGame
+      value: 
+      objectReference: {fileID: 513929805}
     - target: {fileID: 7680425406199323023, guid: c6d37ecda35cbb94f9996c20f3f993fd, type: 3}
       propertyPath: m_Name
       value: GameManager
