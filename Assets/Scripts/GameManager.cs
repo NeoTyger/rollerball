@@ -14,13 +14,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI _txtPoints;
     public TextMeshProUGUI _txtLives;
     public TextMeshProUGUI _txtGameOver;
+    public TextMeshProUGUI _txtWinner;
     public Button _btnRestartGame;
     public Button _btnExit;
     
     private int points = 5;
     public int collectedPoints;
     private bool winner = false;
-    private int level = 0;
     public int playerLives = 3;
     
 
@@ -40,7 +40,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        StartLevel();
+    }
+
+    public void StartLevel()
+    {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
@@ -49,6 +53,7 @@ public class GameManager : MonoBehaviour
         _txtLives.text = "Lives : " + playerLives;
         _txtGameOver.text = "Game Over";
         _txtGameOver.gameObject.SetActive(false);
+        _txtWinner.gameObject.SetActive(false);
         _btnRestartGame.gameObject.SetActive(false);
         _btnExit.gameObject.SetActive(false);
         _btnExit.onClick.AddListener(ExitGame);
@@ -89,12 +94,22 @@ public class GameManager : MonoBehaviour
             collectedPoints = 0;
             playerLives = 3;
         }
+
+        else if (SceneManager.sceneCountInBuildSettings == 2 && collectedPoints == points)
+        {
+            winner = true;
+            _txtWinner.text = "YOU WON!!!";
+            _btnRestartGame.gameObject.SetActive(true);
+            _btnExit.gameObject.SetActive(true);
+        }
     }
 
     private void LoadNextLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+        ResetText();
+        StartLevel();
     }
 
     public void ResetText()
@@ -119,8 +134,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         ResetGame();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
+
         // hacer que el cursor vuelva a ser invisible
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -131,9 +145,9 @@ public class GameManager : MonoBehaviour
         collectedPoints = 0;
         playerLives = 3;
         _txtLives.text = "Lives : " + playerLives;
-        level = 0;
         winner = false;
         _txtGameOver.gameObject.SetActive(false);
+        _txtWinner.gameObject.SetActive(false);
         _btnRestartGame.gameObject.SetActive(false);
         _btnExit.gameObject.SetActive(false);
         Time.timeScale = 1;
