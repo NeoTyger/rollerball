@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
     public TextMeshProUGUI _txtPoints;
+    public TextMeshProUGUI _txtLives;
     public TextMeshProUGUI _txtGameOver;
     public Button _btnRestartGame;
     public Button _btnExit;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         
         collectedPoints = 0;
         _txtPoints.text = "Points : " + collectedPoints;
+        _txtLives.text = "Lives : " + playerLives;
         _txtGameOver.text = "Game Over";
         _txtGameOver.gameObject.SetActive(false);
         _btnRestartGame.gameObject.SetActive(false);
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
     public void SubtractLives()
     {
         playerLives--;
+        _txtLives.text = "Lives : " + playerLives;
         
         ResetText();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -78,12 +81,13 @@ public class GameManager : MonoBehaviour
     public void ScorePoints()
     {
         collectedPoints++;
-        _txtPoints.text = "Points : " + collectedPoints;
+        _txtPoints.text = "Points : " + collectedPoints * 100;
 
         if (collectedPoints == points)
         {
             LoadNextLevel();
             collectedPoints = 0;
+            playerLives = 3;
         }
     }
 
@@ -126,6 +130,7 @@ public class GameManager : MonoBehaviour
     {
         collectedPoints = 0;
         playerLives = 3;
+        _txtLives.text = "Lives : " + playerLives;
         level = 0;
         winner = false;
         _txtGameOver.gameObject.SetActive(false);
