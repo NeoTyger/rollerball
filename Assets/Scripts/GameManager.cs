@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public TextMeshProUGUI _txtPoints;
     public TextMeshProUGUI _txtLives;
+    public TextMeshProUGUI _txtLevel;
     public TextMeshProUGUI _txtGameOver;
     public TextMeshProUGUI _txtWinner;
     public Button _btnRestartGame;
@@ -22,8 +23,8 @@ public class GameManager : MonoBehaviour
     public int collectedPoints;
     private bool winner = false;
     public int playerLives = 3;
-    
 
+    private int currentLevel = 1;
 
     private void Awake()
     {
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
         _txtPoints.text = "Points : " + collectedPoints;
         _txtLives.text = "Lives : " + playerLives;
         _txtGameOver.text = "Game Over";
+        _txtLevel.text = "Level " + currentLevel;
         _txtGameOver.gameObject.SetActive(false);
         _txtWinner.gameObject.SetActive(false);
         _btnRestartGame.gameObject.SetActive(false);
@@ -66,7 +68,8 @@ public class GameManager : MonoBehaviour
         _txtLives.text = "Lives : " + playerLives;
         
         ResetText();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
         
         if (playerLives <= 0)
         {
@@ -88,24 +91,30 @@ public class GameManager : MonoBehaviour
         collectedPoints++;
         _txtPoints.text = "Points : " + collectedPoints * 100;
 
-        if (collectedPoints == points)
+        if (collectedPoints == points && SceneManager.GetActiveScene().buildIndex <2)
         {
             LoadNextLevel();
             collectedPoints = 0;
             playerLives = 3;
         }
 
-        else if (SceneManager.sceneCountInBuildSettings == 2 && collectedPoints == points)
+        if (SceneManager.GetActiveScene().buildIndex == 2 && collectedPoints == points)
         {
             winner = true;
-            _txtWinner.text = "YOU WON!!!";
+            _txtWinner.gameObject.SetActive(true);
             _btnRestartGame.gameObject.SetActive(true);
             _btnExit.gameObject.SetActive(true);
+            
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
+            Time.timeScale = 0;
         }
     }
 
     private void LoadNextLevel()
     {
+        currentLevel++;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
         ResetText();
@@ -116,6 +125,7 @@ public class GameManager : MonoBehaviour
     {
         collectedPoints = 0;
         _txtPoints.text = "Points : " + collectedPoints;
+        _txtLevel.text = SceneManager.GetActiveScene().name;
     }
     
     public void ExitGame()
@@ -144,7 +154,10 @@ public class GameManager : MonoBehaviour
     {
         collectedPoints = 0;
         playerLives = 3;
+        currentLevel = 1;
+        _txtPoints.text = "Points : " + collectedPoints;
         _txtLives.text = "Lives : " + playerLives;
+        _txtLevel.text = "Level " + currentLevel;
         winner = false;
         _txtGameOver.gameObject.SetActive(false);
         _txtWinner.gameObject.SetActive(false);
