@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
         collectedPoints = 0;
         _txtPoints.text = "Points : " + collectedPoints;
         _txtLives.text = "Lives : " + playerLives;
-        _txtGameOver.text = "Game Over";
         _txtLevel.text = "Level " + currentLevel;
         _txtGameOver.gameObject.SetActive(false);
         _txtWinner.gameObject.SetActive(false);
@@ -73,16 +72,7 @@ public class GameManager : MonoBehaviour
         
         if (playerLives <= 0)
         {
-            Time.timeScale = 0;
-            _txtGameOver.gameObject.SetActive(true);
-            _btnRestartGame.gameObject.SetActive(true);
-            _btnExit.gameObject.SetActive(true);
-            
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-
-            // detener el tiempo
-            Time.timeScale = 0;
+            GameOver();
         }
     }
 
@@ -167,5 +157,17 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void GameOver()
+    {
+        _txtGameOver.gameObject.SetActive(true);
+        _btnRestartGame.gameObject.SetActive(true);
+        _btnExit.gameObject.SetActive(true);
+            
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // detener el tiempo
+        Time.timeScale = 0;
+    }
 
 }
