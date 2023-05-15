@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI _txtWinner;
     public Button _btnRestartGame;
     public Button _btnExit;
+    public GameObject pausePanel;
     
     private int points = 5;
     public int collectedPoints;
@@ -42,6 +43,22 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartLevel();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (pausePanel.activeSelf == true)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
+            pausePanel.SetActive(pausePanel.activeSelf?false:true);
+        }
     }
 
     public void StartLevel()
