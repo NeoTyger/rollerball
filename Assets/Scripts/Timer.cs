@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
 
     public static bool timerIsOn = true;
 
-    float currentTime = 0;
+    public float currentTime = 0;
 
     [Space]
     [SerializeField] TextMeshProUGUI timeText;

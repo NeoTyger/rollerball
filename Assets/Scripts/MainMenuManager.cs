@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,11 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    
-    public Button _btnPlay;
-    
-    public void OnPlay()
+    private void Update()
     {
-        SceneManager.LoadScene("Level 1");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene("Scenes/Level 1");
+        }
     }
 }

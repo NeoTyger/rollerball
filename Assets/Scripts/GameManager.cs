@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 {
 
     private static GameManager instance;
+    private Timer _timer;
+    private PlayerLife _playerLife;
     public TextMeshProUGUI _txtPoints;
     public TextMeshProUGUI _txtLives;
     public TextMeshProUGUI _txtLevel;
@@ -19,7 +21,7 @@ public class GameManager : MonoBehaviour
     public Button _btnRestartGame;
     public Button _btnExit;
     public GameObject pausePanel;
-    
+
     private int points = 5;
     public int collectedPoints;
     private bool winner = false;
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartLevel();
+        _timer = FindObjectOfType<Timer>();
+        _playerLife = FindObjectOfType<PlayerLife>();
     }
 
     private void Update()
@@ -86,7 +90,7 @@ public class GameManager : MonoBehaviour
         ResetText();
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
-        
+
         if (playerLives <= 0)
         {
             GameOver();
@@ -159,6 +163,8 @@ public class GameManager : MonoBehaviour
     
     public void ResetGame()
     {
+        Timer.timerIsOn = true;
+        _timer.currentTime = 300;
         collectedPoints = 0;
         playerLives = 3;
         currentLevel = 1;

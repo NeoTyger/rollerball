@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 public class PlayerLife : MonoBehaviour
 {
 
-    private GameManager _gameManager;
+    public GameManager _gameManager;
 
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("FallDetector") || other.CompareTag("enemy"))
